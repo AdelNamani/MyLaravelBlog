@@ -1,0 +1,30 @@
+
+
+@media (min-width: 768px) { .account-info{
+    width: 60%;
+} }
+
+.profile-picture{
+    border-radius: 100%;
+    border: solid #434343 1px;
+    height: 200px;
+    width: 200px;
+}
+.profile-picture:hover{
+    cursor: pointer;
+}
+
+.has-error {
+    color: #dd4b39;
+}
+
+.has-error .form-control {
+    border-color: #dd4b39;
+    box-shadow: none;
+}
+
+.help-block {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
