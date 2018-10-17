@@ -14,13 +14,21 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect('/register');
+    return redirect('/login');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('users','AccountController')->only(['edit','show','update']);
+//Route::resource('users','AccountController')->only(['edit','show','update']);
 
-Route::resource('posts','PostController');
+Route::get('/account','AccountController@show')->name('users.show')->middleware('auth');
+
+Route::get('/account/edit','AccountController@edit')->name('users.edit')->middleware('auth');
+
+Route::patch('/account/edit/{user}','AccountController@update')->name('users.update')->middleware('auth');
+
+Route::resource('posts','PostController')->except(['index','show'])->middleware('auth');
+
+Route::resource('posts','PostController')->only(['index','show']);

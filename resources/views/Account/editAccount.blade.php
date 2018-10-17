@@ -42,7 +42,7 @@
 
             <div class="form-group @if ($errors->has('password')) has-error @endif">
                 <label>Password</label>
-                <input class="form-control" type="password" name="password" />
+                <input class="form-control" type="password" name="password" value="123456" />
                 @foreach ($errors->get('email') as $message)
                     <span class="help-block" > {{$message}} </span>
                 @endforeach
@@ -50,7 +50,7 @@
 
             <div class="form-group">
                 <label>Confirm password</label>
-                <input class="form-control" type="password" name="password_confirmation" />
+                <input class="form-control" type="password" name="password_confirmation" value="123456" />
                 @foreach ($errors->get('password') as $message)
                     <span class="help-block" > {{$message}} </span>
                 @endforeach

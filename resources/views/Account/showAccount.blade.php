@@ -37,6 +37,6 @@
             </tr>
             </tbody>
         </table>
-        <a class="btn btn-dark float-right" href="{{route('users.edit',Auth::user()->id)}}">Edit</a>
+        <a class="btn btn-dark float-right" href="{{route('users.edit')}}">Edit</a>
     </div>
 @endsection

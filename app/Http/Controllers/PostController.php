@@ -16,8 +16,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts=DB::table('posts')->join('users','users.id','=','posts.author')->orderByDesc('created_at');
+        $posts=DB::table('posts')->join('users','users.id','=','posts.author')->select('posts.id as id','posts.title as title','users.name as name','posts.created_at as created_at')->get();
         //$posts = DB::table('users')->leftjoin('posts', 'users.id', '=', 'posts.author');
+        //$posts=Post::all();
         return view('Post.index',['posts'=>$posts]);
     }
 
@@ -41,10 +42,11 @@ class PostController extends Controller
     {
         if ($request->hasFile('photo')){
             $request->validate([
-                'title'=>'required|unique:posts|max:255',
+                'title'=>'required|unique:posts|max:100',
                 'description'=>'required|min:50',
                 'photo'=>'mimes:jpeg,png'
             ]);
+
             $path=request()->file('photo')->store('public/posts_pics');
             $paths=explode('/',$path);
             $correct_path_that_gonna_work_for_sure=$paths[1].'/'.$paths[2];
@@ -57,7 +59,7 @@ class PostController extends Controller
         }
         else{
             $request->validate([
-                'title'=>'required|unique:posts|max:255',
+                'title'=>'required|unique:posts|max:100',
                 'description'=>'required|min:50',
             ]);
             $post=new Post();
@@ -67,7 +69,7 @@ class PostController extends Controller
             $post->photo='';
             $post->save();
         }
-        return view('home');
+        return redirect(route('posts.show',compact('post')));
 
     }
 
@@ -79,7 +81,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        $author=DB::table('users')->where('id','=',$post->author)->first();
+        return view('Post.show',['post'=>$post,'author'=>$author]);
     }
 
     /**
@@ -90,8 +93,11 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        if($post->author==Auth::user()->id)
+        return view('Post.edit',compact('post'));
+        else abort(404);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -102,17 +108,43 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        if ($request->hasFile('photo')){
+            $request->validate([
+                'title'=>'required|unique:posts,'.$post->id.'|max:100',
+                'description'=>'required|min:50',
+                'photo'=>'mimes:jpeg,png'
+            ]);
+            $path=request()->file('photo')->store('public/posts_pics');
+            $paths=explode('/',$path);
+            $correct_path_that_gonna_work_for_sure=$paths[1].'/'.$paths[2];
+            $post->photo=$correct_path_that_gonna_work_for_sure;
+        }
+        else{
+            $request->validate([
+                'title'=>'required|unique:posts,title,'.$post->id.'|max:100 ',
+                'description'=>'required|min:50',
+            ]);
+
+
+        }
+
+        $post->title=$request['title'];
+        $post->description=$request['description'];
+        $post->save();
+
+        return redirect(route('posts.show',compact('post')));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Post  $post
+     * @param  \App\Post $post
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('posts.index');
     }
 }

@@ -1,2 +1,40 @@
 .create-form{
 }
+
+.author-picture{
+    border-radius: 100%;
+    border: solid #434343 1px;
+    height: 80px;
+    width: 80px;
+}
+
+.post-title{
+    margin: 30px;
+}
+
+.post-descrition{
+    margin: 30px;
+    text-indent: 50px;
+
+}
+
+.post-picture{
+    margin: 30px;
+}
+
+.post-picture-update{
+    margin: 30px 30px 5px 30px;
+}
+
+.responsive-img{
+    border: 0;
+    vertical-align: middle;
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.main-img{
+    width: 100%;
+    height: auto;
+}

@@ -16,7 +16,7 @@
                 </li>
             @else
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('users.show',Auth::user()->id)}}">Account</a>
+                    <a class="nav-link" href="{{route('users.show')}}">Account</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
